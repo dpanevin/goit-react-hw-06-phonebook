@@ -1,15 +1,15 @@
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import pbActions from 'redux/phonebook/pb-actions';
+import { selectFilteredContacts } from 'redux/phonebook/pb-selectors';
 import { ContactsListItem, DeleteBtn } from '../Phonebook.styled';
 
-function ContactsList({ onDelete, contacts, filter }) {
-  function onClicked(e) {
-    onDelete(e.target.id);
-  }
+export default function ContactsList() {
+  const filteredContacts = useSelector(selectFilteredContacts);
+  const dispatch = useDispatch();
 
-  const filteredContacts = contacts.filter(({ name }) => {
-    return name.toLowerCase().includes(filter);
-  });
+  function onClicked(e) {
+    dispatch(pbActions.deleteContact(e.target.id));
+  }
 
   return (
     <ul>
@@ -26,14 +26,3 @@ function ContactsList({ onDelete, contacts, filter }) {
     </ul>
   );
 }
-
-const mapStateToProps = ({ contacts, filter }) => ({
-  contacts,
-  filter,
-});
-
-const mapDispatchToProps = dispatch => ({
-  onDelete: id => dispatch(pbActions.deleteContact(id)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactsList);

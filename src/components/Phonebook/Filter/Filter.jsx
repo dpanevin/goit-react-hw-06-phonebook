@@ -1,10 +1,14 @@
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import pbActions from 'redux/phonebook/pb-actions';
+import { selectFilter } from 'redux/phonebook/pb-selectors';
 import { FormInput } from '../Phonebook.styled';
 
-function Filter({ onFilterChange, filterValue }) {
+export default function Filter() {
+  const filter = useSelector(selectFilter);
+  const dispatch = useDispatch();
+
   function hendleChange(e) {
-    onFilterChange(e.target.value);
+    dispatch(pbActions.changeFilter(e.target.value));
   }
 
   return (
@@ -12,7 +16,7 @@ function Filter({ onFilterChange, filterValue }) {
       Поиск по списку контактов:
       <FormInput
         onChange={hendleChange}
-        value={filterValue}
+        value={filter}
         type="text"
         name="filter"
         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -22,13 +26,3 @@ function Filter({ onFilterChange, filterValue }) {
     </label>
   );
 }
-
-const mapStateToProps = ({ filter }) => ({
-  filter,
-});
-
-const mapDispatchToProps = dispatch => ({
-  onFilterChange: value => dispatch(pbActions.changeFilter(value)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);

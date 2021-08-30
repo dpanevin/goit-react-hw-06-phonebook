@@ -1,24 +1,17 @@
 /* eslint-disable import/no-anonymous-default-export */
+import { createAction } from '@reduxjs/toolkit';
 import { nanoid } from 'nanoid';
-import types from 'redux/phonebook/pb-types';
 
-const addContact = ({ name, number }) => ({
-  type: types.ADD_CONTACT,
+const addContact = createAction('phonebook/addContact', ({ name, number }) => ({
   payload: {
     id: nanoid(),
     name,
     number,
   },
-});
+}));
 
-const deleteContact = id => ({
-  type: types.DELETE_CONTACT,
-  payload: id,
-});
+const deleteContact = createAction('phonebook/deleteContact');
 
-const changeFilter = value => ({
-  type: types.CHANGE_FILTER,
-  payload: value,
-});
+const changeFilter = createAction('phonebook/changeFilter');
 
 export default { addContact, deleteContact, changeFilter };

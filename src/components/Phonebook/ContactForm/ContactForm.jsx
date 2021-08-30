@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import pbActions from 'redux/phonebook/pb-actions';
 import {
   AddForm,
@@ -8,9 +8,10 @@ import {
   SubmitBtn,
 } from '../Phonebook.styled';
 
-function ContactForm({ onSubmit }) {
+export default function ContactForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const dispatch = useDispatch();
 
   function handleChange(e) {
     if (e.target.name === 'name') {
@@ -23,7 +24,7 @@ function ContactForm({ onSubmit }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    onSubmit({ name, number });
+    dispatch(pbActions.addContact({ name, number }));
 
     setNumber('');
     setName('');
@@ -60,9 +61,3 @@ function ContactForm({ onSubmit }) {
     </AddForm>
   );
 }
-
-const mapDispatchToProps = dispatch => ({
-  onSubmit: contact => dispatch(pbActions.addContact(contact)),
-});
-
-export default connect(null, mapDispatchToProps)(ContactForm);

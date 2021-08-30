@@ -1,39 +1,32 @@
 import { combineReducers } from 'redux';
-import types from './pb-types';
 import toast from 'react-hot-toast';
+import { createReducer } from '@reduxjs/toolkit';
+import pbActions from 'redux/phonebook/pb-actions';
 
-const contactsReducer = (state = [], { type, payload }) => {
-  switch (type) {
-    case types.ADD_CONTACT:
-      const contactNames = state.map(item => {
-        return item.name;
-      });
+const addContact = (state, { payload }) => {
+  const contactNames = state.map(item => {
+    return item.name;
+  });
 
-      if (contactNames.includes(payload.name)) {
-        toast.error(
-          'Такое имя уже есть в списке контактов, придумайте новое имя.',
-        );
-        return state;
-      } else {
-        return [...state, payload];
-      }
-
-    case types.DELETE_CONTACT:
-      const currentContacts = state.filter(item => item.id !== payload);
-      return currentContacts;
-    default:
-      return state;
+  if (contactNames.includes(payload.name)) {
+    toast.error('Такое имя уже есть в списке контактов, придумайте новое имя.');
+    return state;
+  } else {
+    return [...state, payload];
   }
 };
 
-const filterReducer = (state = '', { type, payload }) => {
-  switch (type) {
-    case types.CHANGE_FILTER:
-      return payload.toLowerCase();
-    default:
-      return state;
-  }
-};
+const contactsReducer = createReducer([], {
+  [pbActions.addContact]: addContact,
+  [pbActions.deleteContact]: (state, { payload }) => {
+    const currentContacts = state.filter(item => item.id !== payload);
+    return currentContacts;
+  },
+});
+
+const filterReducer = createReducer('', {
+  [pbActions.changeFilter]: (_, { payload }) => payload.toLowerCase(),
+});
 
 export default combineReducers({
   contacts: contactsReducer,
