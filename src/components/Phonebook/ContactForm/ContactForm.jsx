@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { findRenderedDOMComponentWithTag } from 'react-dom/test-utils';
 import { connect } from 'react-redux';
 import pbActions from 'redux/phonebook/pb-actions';
 import {

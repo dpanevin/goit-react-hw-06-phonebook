@@ -5,21 +5,6 @@ import Filter from './Filter/Filter';
 import { HeadTitle, Section } from './Phonebook.styled';
 
 export default function Phonebook() {
-  // component did mount
-  // useEffect(() => {
-  //   const localContactsList = JSON.parse(localStorage.getItem('contactsList'));
-
-  //   if (localContactsList) {
-  //     setContacts(localContactsList);
-  //   }
-  // }, []);
-  // //componentdidupdate
-  // useEffect(() => {
-  //   if (contacts) {
-  //     localStorage.setItem('contactsList', JSON.stringify(contacts));
-  //   }
-  // }, [contacts]);
-
   return (
     <Section>
       <HeadTitle>Phonebook</HeadTitle>
